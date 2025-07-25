@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       // Fetch user info after setting token
 
       const userData = data.user || data
-        console.log('Login response user data:', userData)
+        // console.log('Login response user data:', userData)
         setUser(userData)
       const user = await api.get('/auth/me');
       setUser(user);

@@ -1,14 +1,14 @@
-# Task Manager Backend
+# Task Manager - MERN Stack Application
 
-A professional backend API for a task management application, built with Node.js, Express, and MongoDB. This backend provides secure authentication, role-based access control, task CRUD operations, and analytics endpoints.
+A full-stack task management application built with a React frontend and Node.js/Express/MongoDB backend. Features include user authentication, role-based access control, and an analytics dashboard.
 
 ## Features
 
 ### Authentication & Authorization
 - User registration and login with email/password
 - JWT-based authentication
-- Role-based access control (User, Manager)
-- Secure password hashing with bcrypt
+- Role-based access control (User vs Manager)
+- Secure password hashing
 
 ### Task Management
 - Create, read, update, and delete tasks
@@ -17,104 +17,173 @@ A professional backend API for a task management application, built with Node.js
 - Managers can view and manage all users' tasks
 
 ### Advanced Features
-- Filtering, sorting, and searching tasks
-- Pagination for task lists
-- Analytics dashboard with task statistics
+- **Filtering**: Filter tasks by status
+- **Sorting**: Sort by date, title, or status
+- **Search**: Search tasks by title or description
+- **Pagination**: Configurable page size with navigation
+- **Real-time Updates**: Automatic data refresh
+
+### Dashboard Analytics
+- Personal dashboard with task statistics
+- Manager dashboard with system-wide analytics
+- User-specific task breakdowns for managers
+- Visual stat cards with color-coded status indicators
+
+### UI/UX
+- Clean, minimal design with plain CSS
+- Responsive layout for mobile and desktop
+- Intuitive navigation and user feedback
+- Modal forms for task creation/editing
 
 ## Tech Stack
 
-- **Node.js** - JavaScript runtime
+### Frontend
+- **React 18** - UI library
+- **React Router** - Client-side routing
+- **Plain CSS** - Styling (no frameworks)
+- **Vite** - Build tool and dev server
+
+### Backend
+- **Node.js** - Runtime environment
 - **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - ODM for MongoDB
+- **MongoDB** - Database
 - **JWT** - Authentication tokens
-- **bcryptjs** - Password hashing
-- **dotenv** - Environment variable management
-- **CORS** - Cross-origin resource sharing
-
-## Project Structure
-
-```
-.
-├── config/              # Database connection
-├── controllers/         # Route controllers
-├── middlewares/         # Auth and role middlewares
-├── models/              # Mongoose models
-├── routes/              # Express route definitions
-├── postman/             # Postman collections
-│   └── taskmanager-collection.json
-├── server.js            # Entry point
-├── package.json
-├── .env
-└── README.md
-```
+- **bcrypt** - Password hashing
 
 ## Setup Instructions
 
 ### Prerequisites
 - Node.js 16+ installed
-- MongoDB instance (local or cloud)
+- MongoDB installed and running
 
 ### 1. Clone the Repository
-```sh
+```bash
 git clone <repository-url>
-cd taskManager-Backend
+cd task-manager
 ```
 
 ### 2. Install Dependencies
-```sh
+```bash
 npm install
 ```
 
 ### 3. Environment Setup
-Create a `.env` file in the root directory:
+Copy `.env.example` to `.env` and configure your API URL:
 ```env
-PORT=5000
-MONGO_URI=<your-mongodb-uri>
-JWT_SECRET=<your-jwt-secret>
+VITE_API_URL=http://localhost:5000/api
 ```
 
-### 4. Run the Server
-```sh
+### 4. Backend Setup
+You will need a separate Node.js/Express backend with MongoDB. The backend should include:
+
+Required API endpoints:
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user
+- `GET /api/tasks` - Get tasks with filtering, sorting, pagination
+- `POST /api/tasks` - Create task
+- `PUT /api/tasks/:id` - Update task
+- `DELETE /api/tasks/:id` - Delete task
+- `GET /api/dashboard` - Get analytics data
+
+### 5. Run the Application
+```bash
 npm run dev
 ```
-The API will be available at [http://localhost:5000](http://localhost:5000)
+The application will be available at [http://localhost:5173](http://localhost:5173)
 
-## API Endpoints
+## API Endpoints (Backend Required)
 
 ### Authentication
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login and receive JWT
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user info
 
 ### Tasks
-- `GET /api/tasks` - Get tasks (filter, sort, search, paginate)
-- `POST /api/tasks` - Create a new task
-- `PUT /api/tasks/:id` - Update a task
-- `DELETE /api/tasks/:id` - Delete a task
+- `GET /api/tasks` - Get tasks (with filtering, sorting, search, pagination)
+- `POST /api/tasks` - Create new task
+- `PUT /api/tasks/:id` - Update task
+- `DELETE /api/tasks/:id` - Delete task
 
 ### Dashboard
-- `GET /api/dashboard` - Get analytics/statistics
-
-## Postman Collection
-
-A ready-to-use Postman collection is available in [postman/taskmanager-collection.json](postman/taskmanager-collection.json).  
-You can import this collection into Postman to test all API endpoints, including authentication, task management, and dashboard analytics.  
-- Use the `{{token}}` variable for authenticated requests (set after login).
-- Update `{{taskId}}` for task-specific operations.
+- `GET /api/dashboard` - Get user/manager analytics
 
 ## Usage
 
-- Register as a user or manager
-- Login to receive a JWT token
-- Use the token in the `Authorization: Bearer <token>` header for protected routes
-- Managers can access all tasks and analytics; users can only manage their own tasks
+### User Registration
+1. Navigate to `/register`
+2. Fill in email, password, and select role (User or Manager)
+3. Submit to create account
+
+### Task Management
+1. Login and navigate to the Tasks page
+2. Use "Create Task" to add new tasks
+3. Click "Edit" on any task to modify it
+4. Use filters, search, and sorting options to find tasks
+5. Navigate through pages using pagination controls
+
+### Dashboard Analytics
+1. Navigate to the Dashboard page
+2. View your task statistics
+3. Managers can see system-wide statistics and per-user breakdowns
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Layout.jsx
+│   ├── ProtectedRoute.jsx
+│   ├── TaskForm.jsx
+│   ├── TaskList.jsx
+│   └── TaskFilters.jsx
+├── context/             # React context providers
+│   └── AuthContext.jsx
+├── lib/                 # Utility libraries
+│   └── api.js
+├── pages/               # Main application pages
+│   ├── Dashboard.jsx
+│   ├── Login.jsx
+│   ├── Register.jsx
+│   └── Tasks.jsx
+├── App.jsx
+├── App.css
+└── main.jsx
+```
+
+## Features Implemented
+
+✅ User registration with role selection  
+✅ Frontend ready for JWT authentication  
+✅ API integration ready for backend  
+✅ Task CRUD operations  
+✅ Role-based permissions  
+✅ Task filtering by status  
+✅ Task sorting (date, title, status)  
+✅ Keyword search in title/description  
+✅ Pagination with configurable page size  
+✅ Dashboard analytics  
+✅ Manager-specific system statistics  
+✅ Protected routes with proper validation  
+✅ Responsive UI design  
+✅ Clean Git history  
+
+## Extra Features
+
+- Real-time data updates
+- Responsive design for mobile devices
+- Clean, intuitive user interface
+- Modal-based task editing
+- Color-coded task status indicators
+- User-friendly error handling and loading states
 
 ## Development
 
-### Scripts
-- `npm run dev` - Start server with nodemon
-- `npm start` - Start server
+### Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
 ### Contributing
 1. Fork the repository
@@ -125,4 +194,4 @@ You can import this collection into Postman to test all API endpoints, including
 
 ## License
 
-This project is open source and available under the ISC
+**Note**: This frontend requires a Node.js/Express/MongoDB backend to function. The backend should implement JWT authentication, bcrypt password hashing, and all the
